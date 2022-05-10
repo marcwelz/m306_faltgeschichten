@@ -1,8 +1,8 @@
-export default class  Home {
+export default class Home {
     render() {
-        return(
+        return (
             <div>
-                
+
             </div>
         )
     }
