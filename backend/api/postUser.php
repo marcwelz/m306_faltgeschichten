@@ -2,7 +2,7 @@
 
 require_once "../config/include.inc.php";
 
-global $mysql;
+global $mysql, $mysql2;
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -11,26 +11,18 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 switch ($_SERVER['REQUEST_METHOD']) {
-    case 'GET':
+    case 'POST':
+        $username = htmlentities($_GET['username'], ENT_QUOTES);
+        $lobbyid = htmlentities($_GET['lobbyid'], ENT_QUOTES);
 
-        $lobbyId = htmlentities($_GET["lobbyid"], ENT_QUOTES);
-
-        $statement = $mysql->prepare("SELECT * FROM lobby WHERE lobbyID = ?;");
-        $statement->bind_result($lobby, $adminID);
-        $statement->bind_param("i", $lobbyId);
-        $statement->execute();
-        $statement->fetch();
-
-        if (isset($lobby)) {
-            http_response_code(200);
-
-            exit;
-        }
-        http_response_code(404);
+        $stmt = $mysql->prepare("INSERT INTO user(username, lobbyID) VALUES(?,?);");
+        $stmt->bind_param("si", $username, $lobbyid);
+        $stmt->execute();
+        $userid = $mysql->insert_id;
+        $stmt->close();
         break;
     default:
         // 405 = Method Not Allowed
         http_response_code(405); // for PHP >= 5.4.0
         exit;
 }
-

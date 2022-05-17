@@ -2,7 +2,7 @@
 
 require_once "../config/include.inc.php";
 
-global $mysql;
+global $mysql, $mysql2;
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -28,9 +28,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $statement->fetch();
 
         for ($x = 0; $x <= 5; $x++) {
-            $stmt = $mysql->prepare("INSERT INTO story(participant_ID, lobby_ID, question, answer) VALUES(?,?,?,?)");
+            $stmt = $mysql2->prepare("INSERT INTO story(participant_ID, lobby_ID, question, answer) VALUES(?,?,?,?)");
             $stmt->bind_param("iiis", $userid, $lobbyid, $x, $answer[$x]);
             $stmt->execute();
+            $stmt->close();
         }
         break;
     default:
