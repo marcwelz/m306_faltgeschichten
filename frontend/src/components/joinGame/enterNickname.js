@@ -4,16 +4,20 @@ import React, { useEffect, useState } from "react";
 
 function EnterNickname () {
   const {gamecode} = useParams();
-  const [isGameActive, setGameActive] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    setGameActive(checkGameAvailability());
+    if(checkGameAvailability()) {
+      setErrorMessage("Game not found")
+    } else if (containsAnyLetter(gamecode)) {
+      setErrorMessage("Gamecode invalid")
+    }
   }, [])
 
   function checkGameAvailability() {
     //TODO check for game 
 
-    return true;
+    return false;
   }
 
   function handleSubmit(event) {
@@ -24,14 +28,20 @@ function EnterNickname () {
     <div className="main">
       <div className="main-container">
           <h3>Your code: {gamecode}</h3>
-          {isGameActive && (<h6>Game not found</h6>)}
+          <h6>{errorMessage}</h6>
           <div className="main-container-form">
+            <div className='main-container-form__input'>
               <input type="text" placeholder="Enter nickname..." ></input>
-              <input type="submit" onClick={e => handleSubmit(e)} value="Go"></input>
+              <input type="button" onClick={e => handleSubmit(e)} value="Go"></input>
+            </div>
           </div>
       </div>
     </div>
   );
+
+  function containsAnyLetter(str) {
+    return /[a-zA-Z]/.test(str);
+  }
 }
 
 export default EnterNickname;

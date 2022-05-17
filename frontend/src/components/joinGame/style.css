@@ -32,23 +32,40 @@ html {
   text-align: center;
 }
 
-input[type="text"] {
-  font-weight: bold;
+.main-container-form__input {
+  display: flex;
+  justify-content: center;
+}
+
+.create-game-button {
+  padding: 12px;
+  background-color: #ff9999;
+  border: solid;
   width: 100%;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input[type="text"] {
+  margin: 0;
+  font-weight: bold;
   padding: 10px;
   border: solid;
   border-right: none;
+  width: 100%;
 }
 
-input[type="submit"] {
-  padding: 14px;
+.main-container-form__input > input[type="button"] {
+  margin: 0;
+  padding: 12px;
   border: solid;
-  border-left: none;
   background-color: white;
+ border-left: none;
 }
 
 .main-container-form {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin: 0 64px;
 }
