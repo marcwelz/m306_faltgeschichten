@@ -1,26 +1,36 @@
 <?php
 
-require_once "./backend/config/include.inc.php";
+require_once "../config/include.inc.php";
 
 global $mysql;
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: OPTIONS,GET");
+header("Access-Control-Allow-Methods: OPTIONS,GET,DELETE,POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$uri = explode('/', $uri);
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'GET':
 
-// Get Lobby id
-$lobbyId = null;
-if (isset($uri[1])) {
-    $lobbyId = (int) $uri[1];
+        $lobbyId = htmlentities($_GET["lobbyID"], ENT_QUOTES);
+
+        $statement = $mysql->prepare("SELECT * FROM lobby WHERE lobbyID = ?;");
+        $statement->bind_result($lobby, $adminID);
+        $statement->bind_param("i", $lobbyId);
+        $statement->execute();
+        $statement->fetch();
+
+        if (isset($lobby)) {
+            http_response_code(200);
+
+            exit;
+        }
+        http_response_code(404);
+        break;
+    default:
+        // 405 = Method Not Allowed
+        http_response_code(405); // for PHP >= 5.4.0
+        exit;
 }
-
-$sql = "SELECT * FROM `lobby` WHERE `lobbyID` = ?;";
-
-$mysql->prepare($sql);
-$mysql->setopt(1, $lobbyId);
 
