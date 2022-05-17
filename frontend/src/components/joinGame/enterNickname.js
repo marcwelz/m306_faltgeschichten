@@ -1,10 +1,12 @@
 import './style.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 
 function EnterNickname () {
   const {gamecode} = useParams();
   const [errorMessage, setErrorMessage] = useState("");
+  const [username, setUsername] = useState("")
+  const navigate = useNavigate();
 
   useEffect(() => {
     if(checkGameAvailability()) {
@@ -21,7 +23,7 @@ function EnterNickname () {
   }
 
   function handleSubmit(event) {
-    console.log(gamecode)
+    navigate("/lobby/game=" + gamecode + "&username=" + username)
   }
 
   return (
@@ -31,7 +33,7 @@ function EnterNickname () {
           <h6>{errorMessage}</h6>
           <div className="main-container-form">
             <div className='main-container-form__input'>
-              <input type="text" placeholder="Enter nickname..." ></input>
+              <input type="text" onChange={e => setUsername(e.target.value)} placeholder="Enter nickname..." ></input>
               <input type="button" onClick={e => handleSubmit(e)} value="Go"></input>
             </div>
           </div>
