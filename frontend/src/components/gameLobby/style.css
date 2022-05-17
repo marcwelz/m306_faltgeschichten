@@ -1,0 +1,18 @@
+.main-container {
+    width: 400px;
+    height: 300px;
+  
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .main {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-container > h6 {
+    color: black;
+  }
