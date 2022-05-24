@@ -27,7 +27,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $statement->execute();
         $statement->fetch();
 
-        for ($x = 0; $x <= 5; $x++) {
+        for ($x = 1; $x <= 6; $x++) {
             $stmt = $mysql2->prepare("INSERT INTO story(participant_ID, lobby_ID, question, answer) VALUES(?,?,?,?)");
             $stmt->bind_param("iiis", $userid, $lobbyid, $x, $answer[$x]);
             $stmt->execute();
