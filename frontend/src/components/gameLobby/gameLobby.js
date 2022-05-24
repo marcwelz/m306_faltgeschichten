@@ -15,7 +15,7 @@ function GameLobby () {
                 <div className='main-container__players'>
                     <h1>Your code: {gamecode}</h1>
                     <h3>username: {username}</h3>
-                    <ul>
+                    <ul id='nav'>
                         <li>Gogilol</li>
                         <li>Milchmaa</li>
                         <li>YoungLoco</li>
