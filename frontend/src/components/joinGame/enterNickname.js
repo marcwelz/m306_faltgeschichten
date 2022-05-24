@@ -17,7 +17,15 @@ function EnterNickname () {
   }, [])
 
   function checkGameAvailability() {
-    //TODO check for game 
+    fetch("http://localhost/m306_faltgeschichten/backend/api/getLobby.php?lobbyid=" + gamecode)
+        .then(result => {
+          if (result.status === 404) return false;
+          console.log("valid")
+          return true;
+        })
+        .catch(error => {
+          console.log(error, "error")
+        })
 
     return false;
   }
