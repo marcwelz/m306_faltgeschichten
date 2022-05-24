@@ -12,7 +12,7 @@ root.render(
   <React.StrictMode>
     <Router>
       <Routes>
-      <Route path="/welcome" element={<Welcome />} />
+      <Route path="/" element={<Welcome />} />
       <Route path="/game=:gamecode" element={<EnterNickname />} />
       <Route path="/lobby/game=:gamecode&username=:username" element={<GameLobby />} />
       </Routes>
