@@ -23,10 +23,10 @@ function GameLobby () {
                         <li>MissingDave</li>
                         <li>GamerTimo</li>
                     </ul>
-                    <div className='main-container__gameoperations'>
-                        <button value="start"></button>
-                        <button value="cancel"></button>
-                    </div>
+                </div>
+                <div className='main-container__gameoperations'>
+                    <button className="button-9" style={{backgroundColor: '#405cf5'}} value="start"></button>
+                    <button className="button-9"  style={{backgroundColor: "#eb4034"}} value="cancel"></button>
                 </div>
             </div>
         </div>
