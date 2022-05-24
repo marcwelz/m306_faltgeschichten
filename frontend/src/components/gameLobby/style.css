@@ -13,6 +13,27 @@
     align-items: center;
   }
 
-  .main-container > h6 {
+  .main-container__players > h3 {
     color: black;
+    margin-top: 0;
+  }
+
+  .main-container__players > h1 {
+    margin-bottom: 4px;
+  }
+
+  .main-container__players {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    height:300px;
+    box-shadow: 0px 1px 20px rgba(0,0,0,.15);
+  }
+
+  .main-container__players > ul {
+    padding: 0;
+  }
+
+  .main-container__players > ul > li {
+    list-style-type: none;
   }
