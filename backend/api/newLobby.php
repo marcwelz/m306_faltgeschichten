@@ -2,7 +2,7 @@
 
 require_once "../config/include.inc.php";
 
-global $mysql, $mysql2, $mysql3;
+global $mysql, $mysql2, $mysql3, $mysql4;
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -15,8 +15,19 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $username = htmlentities($_GET['username'], ENT_QUOTES);
         $lobbyid = htmlentities($_GET['lobbyid'], ENT_QUOTES);
 
+        $stmt = $mysql4->prepare("SELECT lobbyID FROM lobby WHERE lobbyID = ?");
+        $stmt->bind_result($lobby);
+        $stmt->bind_param("i", $lobbyid);
+        $stmt->execute();
+        $stmt->fetch();
+        if (isset($lobby)) {
+            http_response_code(400);//Bad Request
+            exit;
+        }
+        $stmt->close();
+
         $stmt = $mysql->prepare("INSERT INTO lobby(lobbyID) VALUES(?);");
-        $stmt->bind_param("s", $lobbyid);
+        $stmt->bind_param("i", $lobbyid);
         $stmt->execute();
         $stmt->close();
 
