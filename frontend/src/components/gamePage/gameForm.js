@@ -8,6 +8,7 @@ function GamePage() {
     const [value, setValue] = useState("");
     const [question, setQuestion] = useState("Wer?");
     const [tipp, setTipp] = useState("Denke an eine prominente Person")
+    const [isFinish, setFinish] = useState(false)
 
     function nextQuestion() {
         navigate("")
@@ -28,9 +29,15 @@ function GamePage() {
                 </div>
 
                 <div className='main-container__gameoperations'>
-                    <button className='button-9'
-                        style={{ backgroundColor: '#405cf5' }}>
-                            next
+                    <button 
+                        className='button-9'
+                        style={{ backgroundColor: isFinish ? '#3fcc65' : '#405cf5'}}
+                        onClick={() => setFinish(!isFinish)}
+                        >
+                            {isFinish ? <div class="lds-ring"><div></div><div></div><div></div><div></div></div>: ""}
+                            <div style={{width: isFinish ? "auto" : "100%"}}>
+                                {isFinish ? "Wartet auf andere Spieler" : "Fertig"}
+                            </div>
                     </button>    
                 </div>
             </div>
