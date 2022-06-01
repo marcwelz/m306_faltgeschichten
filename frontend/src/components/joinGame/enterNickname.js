@@ -19,8 +19,10 @@ function EnterNickname () {
   function checkGameAvailability() {
     fetch("http://localhost/m306_faltgeschichten/backend/api/getLobby.php?lobbyid=" + gamecode)
         .then(result => {
-          if (result.status === 404) return false;
-          console.log("valid")
+          if (result.status === 404) {
+              navigate("/");
+              return false;
+          }
           return true;
         })
         .catch(error => {
@@ -31,7 +33,13 @@ function EnterNickname () {
   }
 
   function handleSubmit(event) {
-    navigate("/lobby/game=" + gamecode + "&username=" + username)
+      const requestOptions = {
+          method: 'POST',
+          // headers: { 'Content-Type': 'application/json' },
+          // body: JSON.stringify({ title: 'React POST Request Example' })
+      };
+    fetch("http://localhost/m306_faltgeschichten/backend/api/postUser.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
+        .then(r => navigate("/lobby/game=" + gamecode + "&username=" + username))
   }
 
   return (

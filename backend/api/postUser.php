@@ -21,6 +21,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $userid = $mysql->insert_id;
         $stmt->close();
         break;
+    case 'DELETE':
+        $username = htmlentities($_GET['username'], ENT_QUOTES);
+        $lobbyid = htmlentities($_GET['lobbyid'], ENT_QUOTES);
+
+        $stmt = $mysql->prepare("DELETE FROM user WHERE username = ? AND lobbyID = ?");
+        $stmt->bind_param("si", $username, $lobbyid);
+        $stmt->execute();
+        $stmt->close();
+        break;
+    case 'OPTIONS':
+        http_response_code(200);
+        exit();
     default:
         // 405 = Method Not Allowed
         http_response_code(405); // for PHP >= 5.4.0

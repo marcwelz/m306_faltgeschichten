@@ -1,13 +1,30 @@
 import './style.css';
 import { useParams, useNavigate } from 'react-router-dom';
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 function GameLobby () {
     const {gamecode, username} = useParams();
+    const [players, setPlayers] = useState([]);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
+            loadPlayers();
+        }, 1000)
+
+        return () => clearInterval(intervalId);
+
+    }, [])
+
     function loadPlayers() {
-        
+        fetch("http://localhost/m306_faltgeschichten/backend/api/getUsers.php?lobbyid=" + gamecode)
+            .then(res => res.json())
+            .then(result => {
+                setPlayers(result);
+            })
+            .catch(error => {
+                console.log(error, "error")
+            })
     }
 
     function startGame() {
@@ -15,8 +32,8 @@ function GameLobby () {
     }
 
     function cancelGame() {
-        // TODO cancel game
-        navigate("/")
+        fetch("http://localhost/m306_faltgeschichten/backend/api/postUser.php?lobbyid=" + gamecode + "&username=" + username, { method: "DELETE" })
+            .then(r => navigate("/"))
     }
 
     return (
@@ -26,12 +43,8 @@ function GameLobby () {
                     <h1>Your code: {gamecode}</h1>
                     <h3>username: {username}</h3>
                     <ul id='nav'>
-                        <li>Gogilol</li>
-                        <li>Milchmaa</li>
-                        <li>YoungLoco</li>
-                        <li>OldRapfi</li>
-                        <li>MissingDave</li>
-                        <li>GamerTimo</li>
+                        {players.length > 0 ? players.map(player => <li key={player}>{player}</li>) :
+                         <li>Loading ...</li>}
                     </ul>
                 </div>
                 <div className='main-container__gameoperations'>
