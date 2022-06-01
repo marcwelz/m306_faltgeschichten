@@ -36,7 +36,7 @@ function GamePage() {
                         >
                             {isFinish ? <div class="lds-ring"><div></div><div></div><div></div><div></div></div>: ""}
                             <div style={{width: isFinish ? "auto" : "100%"}}>
-                                {isFinish ? "Wartet auf andere Spieler" : "Fertig"}
+                                {isFinish ? "Wartet auf andere Spieler..." : "Fertig"}
                             </div>
                     </button>    
                 </div>

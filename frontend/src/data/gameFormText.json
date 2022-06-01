@@ -31,26 +31,26 @@
         "title": "Wo?",
         "tipps": [
             "Denke an den ungewöhnlichsten Ort an dem Du warst",
-            "",
-            ""
+            "Wie wärs mit einem Freizeitpark?",
+            "Vor der Haustüre deiner Mutter vieleicht?"
         ]
     },
     {
         "id":5,
         "title": "Wann?",
         "tipps": [
-            "Denke an den ungewöhnlichsten Ort an dem Du warst",
-            "",
-            ""
+            "Es muss nicht unbedingt eine Uhrzeit sein",
+            "Vielicht war es ja heute?",
+            "Versuche etwas ungewönliches zu schreiben!"
         ]
     },
     {
         "id":6,
         "title": "Wieso?",
         "tipps": [
-            "Denke an den ungewöhnlichsten Ort an dem Du warst",
-            "",
-            ""
+            "Eventuell war die Person gerade Krank",
+            "Weil er/sie hat sie das Skibein gebrochen",
+            "Denke an einen lustigen Event aus deinem Lebem"
         ]
     }
 ]
