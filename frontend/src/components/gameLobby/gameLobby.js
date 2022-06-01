@@ -10,9 +10,12 @@ function GameLobby () {
         
     }
 
+    function startGame() {
+        navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
+    }
+
     function cancelGame() {
         // TODO cancel game
-
         navigate("/")
     }
 
@@ -41,7 +44,8 @@ function GameLobby () {
                     <button 
                         className="button-9" 
                         style={{backgroundColor: '#405cf5', marginLeft: "10px"}} 
-                        value="start">
+                        value="start"
+                        onClick={e => startGame()}>
                     start</button>
                 </div>
             </div>
