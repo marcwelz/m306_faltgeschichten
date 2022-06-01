@@ -50,7 +50,7 @@ function EnterNickname () {
           <h6>{errorMessage}</h6>
           <div className="main-container-form">
             <div className='main-container-form__input'>
-              <input type="text" onChange={e => setUsername(e.target.value)} placeholder="Enter nickname..." ></input>
+              <input type="text" onChange={e => setUsername(e.target.value)} placeholder="Enter nickname..." onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}></input>
               <input type="button" onClick={e => handleSubmit(e)} value="Go"></input>
             </div>
           </div>
