@@ -1,0 +1,1 @@
+export const standard_url = 'http://192.168.100.21/m306_faltgeschichten/backend/api';

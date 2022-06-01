@@ -1,6 +1,7 @@
 import './style.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import React, {useEffect, useState} from "react";
+import {standard_url} from "../../config/global_configurations";
 
 function GameLobby () {
     const {gamecode, username} = useParams();
@@ -17,7 +18,7 @@ function GameLobby () {
     }, [])
 
     function loadPlayers() {
-        fetch("http://localhost/m306_faltgeschichten/backend/api/getUsers.php?lobbyid=" + gamecode)
+        fetch(standard_url + "/getUsers.php?lobbyid=" + gamecode)
             .then(res => res.json())
             .then(result => {
                 setPlayers(result);
@@ -32,8 +33,8 @@ function GameLobby () {
     }
 
     function cancelGame() {
-        fetch("http://localhost/m306_faltgeschichten/backend/api/postUser.php?lobbyid=" + gamecode + "&username=" + username, { method: "DELETE" })
-            .then(r => navigate("/"))
+        fetch(standard_url + "/postUser.php?lobbyid=" + gamecode + "&username=" + username, { method: "DELETE" })
+            .then(() => navigate("/"))
     }
 
     return (

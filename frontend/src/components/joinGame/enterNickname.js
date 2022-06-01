@@ -1,6 +1,7 @@
 import './style.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
+import {standard_url} from "../../config/global_configurations";
 
 function EnterNickname () {
   const {gamecode} = useParams();
@@ -17,7 +18,7 @@ function EnterNickname () {
   }, [])
 
   function checkGameAvailability() {
-    fetch("http://localhost/m306_faltgeschichten/backend/api/getLobby.php?lobbyid=" + gamecode)
+    fetch(standard_url + "/getLobby.php?lobbyid=" + gamecode)
         .then(result => {
           if (result.status === 404) {
               navigate("/");
@@ -38,7 +39,7 @@ function EnterNickname () {
           // headers: { 'Content-Type': 'application/json' },
           // body: JSON.stringify({ title: 'React POST Request Example' })
       };
-    fetch("http://localhost/m306_faltgeschichten/backend/api/postUser.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
+    fetch(standard_url + "/postUser.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
         .then(r => navigate("/lobby/game=" + gamecode + "&username=" + username))
   }
 
