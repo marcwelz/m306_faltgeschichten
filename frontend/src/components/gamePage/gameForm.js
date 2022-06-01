@@ -36,8 +36,8 @@ function GamePage() {
         setCurrentQuestion(currentQuestion +1)
 
         setValue("")
-        if(currentQuestion == 6) {
-            navigate("")
+        if(currentQuestion == 5) {
+            navigate("/")
         }
     }
 
