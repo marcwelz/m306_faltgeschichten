@@ -6,7 +6,8 @@ function GamePage() {
     const { gamecode, username } = useParams();
     const navigate = useNavigate();
     const [value, setValue] = useState("");
-    const question = "Wer?";
+    const [question, setQuestion] = useState("Wer?");
+    const [tipp, setTipp] = useState("Denke an eine prominente Person")
 
     function nextQuestion() {
         navigate("")
@@ -17,11 +18,12 @@ function GamePage() {
             <div className='main-container-game'>
                 <div>
                     <h1>{question}</h1>
+                    <h3>Tipp: {tipp}</h3>
                 </div>
 
-                <div className="main-container-form">
-                    <div className='main-container-form__input'>
-                        <input type="text" placeholder='antwort zur frage' onChange={e => setValue(e.target.value)}></input>
+                <div className="main-container-game-form">
+                    <div className='main-container-game-form__input'>
+                        <input type="text" placeholder='Gib deine Antwort ein...' onChange={e => setValue(e.target.value)}></input>
                     </div>
                 </div>
 

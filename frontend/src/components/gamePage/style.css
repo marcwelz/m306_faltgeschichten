@@ -21,22 +21,20 @@
   }
 
   .main-container__gameoperations {
-    display: flex;
     padding: 20px;
-    padding-top: 0;
     height: 50px;
   }
 
-  .main-container-form {
+  .main-container-game-form {
       width: 100%;
-      margin: auto;
   }
 
-  .main-container-form__input {
-      border-right: solid;
+  .main-container-game-form__input {
       outline: none;
     display: flex;
     justify-content: center;
+    border-right: solid;
+    margin: 0 20px;
 }
 
 /* CSS */
