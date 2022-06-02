@@ -29,7 +29,7 @@ function GamePage() {
         }
 
         setDataReady(true)
-    })
+    }, [])
 
     function nextQuestion() {
         answers[currentQuestion] = value
