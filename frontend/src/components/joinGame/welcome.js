@@ -1,17 +1,24 @@
 import './style.css';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {standard_url} from "../../config/global_configurations";
 
 function StartIndex() {
   const [gamecode, setGamecode] = useState("");
   const navigate = useNavigate();
   
   function handleSubmit() {
-    //TODO send request
-            
-    if(!containsAnyLetter(gamecode) && gamecode.length === 8){
-      navigate("/game=" + gamecode)
-    }
+      fetch(standard_url + "/getLobby.php?lobbyid=" + gamecode)
+          .then(result => {
+              if (result.status === 404) return;
+
+              if(!containsAnyLetter(gamecode) && gamecode.length === 8){
+                  navigate("/game=" + gamecode)
+              }
+          })
+          .catch(error => {
+              console.log("game not found")
+          })
   }
 
   function handleCreateGame() {

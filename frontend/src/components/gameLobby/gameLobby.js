@@ -29,7 +29,8 @@ function GameLobby () {
     }
 
     function startGame() {
-        navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
+        fetch(standard_url + "/postUser.php?lobbyid=" + gamecode + "&username=" + username)
+        // navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
     }
 
     function cancelGame() {
@@ -44,7 +45,7 @@ function GameLobby () {
                     <h1>Your code: {gamecode}</h1>
                     <h3>username: {username}</h3>
                     <ul id='nav'>
-                        {players.length > 0 ? players.map(player => <li key={player}>{player}</li>) :
+                        {players.length > 0 ? players.map(player => <li key={player.username}>{player.username + " " + player.status}</li>) :
                          <li>Loading ...</li>}
                     </ul>
                 </div>
@@ -60,7 +61,7 @@ function GameLobby () {
                         style={{backgroundColor: '#405cf5', marginLeft: "10px"}} 
                         value="start"
                         onClick={e => startGame()}>
-                    start</button>
+                    ready</button>
                 </div>
             </div>
         </div>
