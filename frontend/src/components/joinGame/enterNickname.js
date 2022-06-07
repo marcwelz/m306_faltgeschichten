@@ -9,9 +9,11 @@ function EnterNickname () {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(checkGameAvailability()) {
-      setErrorMessage("Game not found")
-    } else if (containsAnyLetter(gamecode)) {
+    if (!containsAnyLetter(gamecode) && gamecode.length === 8) {
+      if(checkGameAvailability()) {
+        setErrorMessage("Game not found")
+      }
+    } else {
       setErrorMessage("Gamecode invalid")
     }
   }, [])
@@ -49,7 +51,19 @@ function EnterNickname () {
           <h6>{errorMessage}</h6>
           <div className="main-container-form">
             <div className='main-container-form__input'>
-              <input type="text" onChange={e => setUsername(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSubmit()} placeholder="Enter nickname..." ></input>
+              {errorMessage ? 
+                <button 
+                  className="button-9" 
+                  style={{backgroundColor: "#eb4034", marginRight:"10px"}} 
+                  onClick={() => navigate("/")}
+                  value="cancel">
+                cancel</button> : 
+                <input type="text" 
+                  onChange={e => setUsername(e.target.value)} 
+                  onKeyPress={(e) => e.key === 'Enter' && handleSubmit()} 
+                  placeholder="Enter nickname..." >
+                </input>
+              }
             </div>
           </div>
       </div>
