@@ -59,21 +59,31 @@ function EnterNickname() {
         }
     }
 
-    return (
-        <div className="main">
-            <div className="main-container">
-                <h3>Your code: {gamecode}</h3>
-                <h6>{errorMessage}</h6>
-                <div className="main-container-form">
-                    <div className='main-container-form__input'>
-                        <input type="text" onChange={e => setUsername(e.target.value)} placeholder="Enter nickname..."
-                               onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}></input>
-                        <input type="button" onClick={e => handleSubmit(e)} value="Go"></input>
-                    </div>
-                </div>
+  return (
+    <div className="main">
+      <div className="main-container">
+          <h3>Your code: {gamecode}</h3>
+          <h6>{errorMessage}</h6>
+          <div className="main-container-form">
+            <div className='main-container-form__input'>
+              {errorMessage ?
+                <button
+                  className="button-9"
+                  style={{backgroundColor: "#eb4034", marginRight:"10px"}}
+                  onClick={() => navigate("/")}
+                  value="cancel">
+                cancel</button> :
+                <input type="text"
+                  onChange={e => setUsername(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
+                  placeholder="Enter nickname..." >
+                </input>
+              }
             </div>
-        </div>
-    );
+          </div>
+      </div>
+    </div>
+  );
 
     function containsAnyLetter(str) {
         return /[a-zA-Z]/.test(str);
