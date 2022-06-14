@@ -51,16 +51,7 @@ input[type="text"] {
   font-weight: bold;
   padding: 10px;
   border: solid;
-  border-right: none;
   width: 100%;
-}
-
-.main-container-form__input > input[type="button"] {
-  margin: 0;
-  padding: 12px;
-  border: solid;
-  background-color: white;
- border-left: none;
 }
 
 .main-container-form {
