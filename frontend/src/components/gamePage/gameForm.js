@@ -15,10 +15,13 @@ function GamePage() {
 
     const randomTippIndex = Math.floor(Math.random() * (3));
 
-    function handleFinish() {
-        setFinish(!isFinish)
-        if(isFinish) nextQuestion()
+    function handleButton() {
+        if(!isFinish) nextQuestion()
     }
+
+    useEffect(() => {
+        setDataReady(true)
+    }, [question])
 
     useEffect(() => {
         if(!isDataReady) {
@@ -27,18 +30,19 @@ function GamePage() {
                 tipp.push(data.tipps)
             })
         }
-
-        setDataReady(true)
     }, [])
 
     function nextQuestion() {
         answers[currentQuestion] = value
-        setCurrentQuestion(currentQuestion +1)
-
         setValue("")
+
         if(currentQuestion == 5) {
-            navigate("/")
+            //TODO game is finish
+            setFinish(true)
+            //navigate("/")
+            return
         }
+        setCurrentQuestion(currentQuestion +1)
     }
 
     return (
@@ -50,14 +54,14 @@ function GamePage() {
                 </div>
                 <div className="main-container-game-form">
                     <div className='main-container-game-form__input'>
-                        <input type="text" value={value} placeholder='Gib deine Antwort ein...' onChange={e => setValue(e.target.value)}></input>
+                        <input type="text" value={value} disabled={isFinish} placeholder='Gib deine Antwort ein...' onChange={e => setValue(e.target.value)}></input>
                     </div>
                 </div>
                 <div className='main-container__gameoperations'>
                     <button 
                         className='button-9'
                         style={{ backgroundColor: isFinish ? '#3fcc65' : '#405cf5'}}
-                        onClick={() => handleFinish()}
+                        onClick={() => handleButton()}
                         >
                             {isFinish ? <div className="lds-ring"><div></div><div></div><div></div><div></div></div>: ""}
                             <div style={{width: isFinish ? "auto" : "100%"}}>
