@@ -2,7 +2,7 @@
 
 require_once "../config/include.inc.php";
 
-global $mysql, $mysql2;
+global $mysql, $mysql2, $mysql3;
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -34,6 +34,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $stmt->execute();
             $stmt->close();
         }
+
+        $statement->close();
+
+        $statement = $mysql3->prepare("UPDATE user SET status = 'finished' WHERE username = ? AND lobbyID = ?;");
+        $statement->bind_result($userid, $lobbyid);
+        $statement->bind_param("si", $username, $lobby);
+        $statement->execute();
+        $statement->fetch();
         break;
     default:
         // 405 = Method Not Allowed

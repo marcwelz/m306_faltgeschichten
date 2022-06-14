@@ -2,8 +2,10 @@ import './style.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 import data from "../../config/data/gameFormText.json";
+import {standard_url} from "../../config/global_configurations";
 
 function GamePage() {
+    const {gamecode, username} = useParams();
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [isDataReady, setDataReady] = useState(false)
     const navigate = useNavigate();
@@ -36,13 +38,45 @@ function GamePage() {
         answers[currentQuestion] = value
         setValue("")
 
-        if(currentQuestion == 5) {
-            //TODO game is finish
+        if(currentQuestion === 5) {
             setFinish(true)
-            //navigate("/")
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: {username},
+                    lobby: {gamecode},
+                    wer: answers[1],
+                    beruf: answers[2],
+                    was: answers[3],
+                    wo: answers[4],
+                    wann: answers[5],
+                    wieso: answers[6],
+                })
+            };
+            fetch(standard_url + "/postAnswers.php", requestOptions)
+                .then(r => {
+                    const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
+                        checkAnswers();
+                    }, 1000)
+
+                    return () => clearInterval(intervalId);
+                })
             return
         }
         setCurrentQuestion(currentQuestion +1)
+    }
+
+    function checkAnswers() {
+        fetch(standard_url + "/getStories.php?lobbyid=" + gamecode)
+            .then(res => res.json())
+            .then(result => {
+                if (result.ok !== 400){
+                }
+            })
+            .catch(error => {
+                console.log(error, "error")
+            })
     }
 
     return (
