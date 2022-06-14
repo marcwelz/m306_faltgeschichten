@@ -23,7 +23,7 @@ function StartIndex() {
 
   function handleCreateGame() {
 
-    navigate("/game=" + makeGameId(8))
+    navigate("/game=" + makeGameId(8) + "/1")
   }
 
   return (
@@ -48,7 +48,7 @@ function StartIndex() {
     for ( var i = 0; i < length; i++ ) {
       result += characters.charAt(Math.floor(Math.random() * 
       charactersLength));
-    }  
+    }
    return result;
   }
 

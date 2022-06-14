@@ -13,6 +13,8 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
 
+        $startGame = true;
+
         $lobbyId = htmlentities($_GET["lobbyid"], ENT_QUOTES);
 
         $statement = $mysql->prepare("SELECT username, status FROM user WHERE lobbyID = ?;");
@@ -21,10 +23,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $statement->execute();
         while( $statement->fetch()){
             $users[] = array("username" => $username, "status" => $status);
+            if ($status != "ready")
+                $startGame = false;
         }
 
         if ($users) {
             http_response_code(200);
+
+            if ($startGame){ // && count($users) > 3){
+                echo json_encode(array("start" => true));
+                exit();
+            }
 
             echo json_encode($users);
         } else {

@@ -21,6 +21,9 @@ function GameLobby () {
         fetch(standard_url + "/getUsers.php?lobbyid=" + gamecode)
             .then(res => res.json())
             .then(result => {
+                if (result?.start){
+                    navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
+                }
                 setPlayers(result);
             })
             .catch(error => {
