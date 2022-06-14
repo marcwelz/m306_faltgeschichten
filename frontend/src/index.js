@@ -14,7 +14,7 @@ root.render(
     <Router>
       <Routes>
       <Route path="/" element={<Welcome />} />
-      <Route path="/game=:gamecode" element={<EnterNickname />} />
+      <Route path="/game=:gamecode/:create" element={<EnterNickname />} />
       <Route path="/lobby/game=:gamecode&username=:username" element={<GameLobby />} />
       <Route path="/lobby/game=:gamecode&username=:username/game" element={<GamePage />} />
       </Routes>

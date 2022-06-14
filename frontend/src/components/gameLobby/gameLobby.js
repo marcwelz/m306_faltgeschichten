@@ -1,6 +1,7 @@
 import './style.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import React, {useEffect, useState} from "react";
+import {standard_url} from "../../config/global_configurations";
 
 function GameLobby () {
     const {gamecode, username} = useParams();
@@ -17,9 +18,12 @@ function GameLobby () {
     }, [])
 
     function loadPlayers() {
-        fetch("http://localhost/m306_faltgeschichten/backend/api/getUsers.php?lobbyid=" + gamecode)
+        fetch(standard_url + "/getUsers.php?lobbyid=" + gamecode)
             .then(res => res.json())
             .then(result => {
+                if (result?.start){
+                    navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
+                }
                 setPlayers(result);
             })
             .catch(error => {
@@ -28,12 +32,13 @@ function GameLobby () {
     }
 
     function startGame() {
-        navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
+        fetch(standard_url + "/postUser.php?lobbyid=" + gamecode + "&username=" + username)
+        // navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
     }
 
     function cancelGame() {
-        fetch("http://localhost/m306_faltgeschichten/backend/api/postUser.php?lobbyid=" + gamecode + "&username=" + username, { method: "DELETE" })
-            .then(r => navigate("/"))
+        fetch(standard_url + "/postUser.php?lobbyid=" + gamecode + "&username=" + username, { method: "DELETE" })
+            .then(() => navigate("/"))
     }
 
     return (
@@ -43,7 +48,7 @@ function GameLobby () {
                     <h1>Your code: {gamecode}</h1>
                     <h3>username: {username}</h3>
                     <ul id='nav'>
-                        {players.length > 0 ? players.map(player => <li key={player}>{player}</li>) :
+                        {players.length > 0 ? players.map(player => <li key={player.username}>{player.username + " " + player.status}</li>) :
                          <li>Loading ...</li>}
                     </ul>
                 </div>
@@ -59,7 +64,7 @@ function GameLobby () {
                         style={{backgroundColor: '#405cf5', marginLeft: "10px"}} 
                         value="start"
                         onClick={e => startGame()}>
-                    start</button>
+                    ready</button>
                 </div>
             </div>
         </div>

@@ -30,6 +30,15 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $stmt->execute();
         $stmt->close();
         break;
+    case 'GET':
+        $username = htmlentities($_GET['username'], ENT_QUOTES);
+        $lobbyid = htmlentities($_GET['lobbyid'], ENT_QUOTES);
+
+        $stmt = $mysql->prepare("UPDATE user SET status = CASE when status = 'lobby' THEN 'ready' ELSE 'lobby' END WHERE username = ? AND lobbyID = ?;");
+        $stmt->bind_param("si", $username, $lobbyid);
+        $stmt->execute();
+        $stmt->close();
+        break;
     case 'OPTIONS':
         http_response_code(200);
         exit();

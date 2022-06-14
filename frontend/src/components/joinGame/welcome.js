@@ -1,22 +1,29 @@
 import './style.css';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {standard_url} from "../../config/global_configurations";
 
 function StartIndex() {
   const [gamecode, setGamecode] = useState("");
   const navigate = useNavigate();
   
   function handleSubmit() {
-    //TODO send request
-            
-    if(!containsAnyLetter(gamecode) && gamecode.length === 8){
-      navigate("/game=" + gamecode)
-    }
+      fetch(standard_url + "/getLobby.php?lobbyid=" + gamecode)
+          .then(result => {
+              if (result.status === 404) return;
+
+              if(!containsAnyLetter(gamecode) && gamecode.length === 8){
+                  navigate("/game=" + gamecode)
+              }
+          })
+          .catch(error => {
+              console.log("game not found")
+          })
   }
 
   function handleCreateGame() {
 
-    navigate("/game=" + makeGameId(8))
+    navigate("/game=" + makeGameId(8) + "/1")
   }
 
   return (
@@ -26,6 +33,7 @@ function StartIndex() {
           <div className="main-container-form">
             <div className='main-container-form__input'>
               <input type="text" placeholder="Enter gamecode..." onChange={e => setGamecode(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}></input>
+              <input type="button" onClick={handleSubmit} value="Go"></input>
             </div>
             <input type="button" onClick={handleCreateGame} className="create-game-button" value="Host Game"></input>
           </div>
@@ -40,7 +48,7 @@ function StartIndex() {
     for ( var i = 0; i < length; i++ ) {
       result += characters.charAt(Math.floor(Math.random() * 
       charactersLength));
-    }  
+    }
    return result;
   }
 
