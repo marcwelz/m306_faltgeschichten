@@ -1,6 +1,6 @@
 import './style.css';
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {standard_url} from "../../config/global_configurations";
 
 function StartIndex() {
@@ -32,10 +32,10 @@ function StartIndex() {
           <h1>Welcome</h1>
           <div className="main-container-form">
             <div className='main-container-form__input'>
-              <input type="text" placeholder="Enter gamecode..." onChange={e => setGamecode(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}></input>
-              <input type="button" onClick={handleSubmit} value="Go"></input>
+              <input type="text" placeholder="Enter gamecode..." onChange={e => setGamecode(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}/>
+              <input type="button" onClick={handleSubmit} value="Go"/>
             </div>
-            <input type="button" onClick={handleCreateGame} className="create-game-button" value="Host Game"></input>
+            <input type="button" onClick={handleCreateGame} className="create-game-button" value="Host Game"/>
           </div>
       </div>
     </div>
