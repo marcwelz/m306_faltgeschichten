@@ -13,7 +13,7 @@ function StartIndex() {
               if (result.status === 404) return;
 
               if(!containsAnyLetter(gamecode) && gamecode.length === 8){
-                  navigate("/game=" + gamecode)
+                  navigate("/game=" + gamecode + "/0")
               }
           })
           .catch(error => {
