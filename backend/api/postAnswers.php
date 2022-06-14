@@ -12,18 +12,19 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
-        $answer[0] = htmlentities($_POST['wer'], ENT_QUOTES);
-        $answer[1] = htmlentities($_POST['beruf'], ENT_QUOTES);
-        $answer[2] = htmlentities($_POST['was'], ENT_QUOTES);
-        $answer[3] = htmlentities($_POST['wo'], ENT_QUOTES);
-        $answer[4] = htmlentities($_POST['wann'], ENT_QUOTES);
-        $answer[5] = htmlentities($_POST['wieso'], ENT_QUOTES);
+        $answer[1] = htmlentities($_POST['wer'], ENT_QUOTES);
+        $answer[2] = htmlentities($_POST['beruf'], ENT_QUOTES);
+        $answer[3] = htmlentities($_POST['was'], ENT_QUOTES);
+        $answer[4] = htmlentities($_POST['wo'], ENT_QUOTES);
+        $answer[5] = htmlentities($_POST['wann'], ENT_QUOTES);
+        $answer[6] = htmlentities($_POST['wieso'], ENT_QUOTES);
 
         $username = htmlentities($_POST['username'], ENT_QUOTES);
+        $lobby = htmlentities($_POST['lobby'], ENT_QUOTES);
 
-        $statement = $mysql->prepare("SELECT userID, lobbyID FROM user WHERE username = ?;");
+        $statement = $mysql->prepare("SELECT userID, lobbyID FROM user WHERE username = ? AND lobbyID = ?;");
         $statement->bind_result($userid, $lobbyid);
-        $statement->bind_param("s", $username);
+        $statement->bind_param("si", $username, $lobby);
         $statement->execute();
         $statement->fetch();
 

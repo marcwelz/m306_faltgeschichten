@@ -14,16 +14,40 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         $lobbyid = htmlentities($_GET['lobbyid'], ENT_QUOTES);
 
-        $stmt = $mysql->prepare("SELECT lobbyID FROM lobby WHERE lobbyID = ?");
-        $stmt->bind_result($lobby);
+        $stmt = $mysql->prepare("SELECT count(userID) FROM user WHERE lobbyID = ? AND status = 'finished'");
+        $stmt->bind_result($finishedUsers);
         $stmt->bind_param("i", $lobbyid);
         $stmt->execute();
         $stmt->fetch();
-        if (isset($lobby)) {
+        $stmt2 = $mysql2->prepare("SELECT count(userID) FROM user WHERE lobbyID = ?");
+        $stmt2->bind_result($allUsers);
+        $stmt2->bind_param("i", $lobbyid);
+        $stmt2->execute();
+        $stmt2->fetch();
+        if ($finishedUsers != $allUsers) {
             http_response_code(400);//Bad Request
             exit;
         }
         $stmt->close();
+        $stmt2->close();
+
+        $j = 1;
+        for ($i = 1; $i <= 6; $i++){
+            $stmt = $mysql->prepare("SELECT answer FROM story WHERE lobby_ID = ? AND question = ? ORDER BY participant_ID, question");
+            $stmt->bind_result($answer);
+            $stmt->bind_param("ii", $lobbyid, $i);
+            $stmt->execute();
+
+            while($stmt->fetch()) {
+                $ergebnis[$j % $finishedUsers][$i] = $answer;
+                $j++;
+            }
+            $j--;
+            $stmt->close();
+        }
+
+        echo json_encode($ergebnis);
+
 
         break;
     default:
