@@ -33,7 +33,7 @@ function GameLobby () {
     }
 
     function ready() {
-        fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username,  {method: "PATCH" })
+        fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username,  { method: "PATCH" })
         // navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
     }
 

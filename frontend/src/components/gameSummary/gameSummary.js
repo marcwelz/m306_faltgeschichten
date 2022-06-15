@@ -24,7 +24,7 @@ function GameSummary() {
     }
 
     function handlePlayAgain() {
-        fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username,  {method: "PUT" })
+        fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username,  { method: "PUT" })
             .then(() => navigate("/lobby/game=" + gamecode + "&username=" + username))
     }
 
