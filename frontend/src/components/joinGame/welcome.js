@@ -8,7 +8,7 @@ function StartIndex() {
   const navigate = useNavigate();
   
   function handleSubmit() {
-      fetch(standard_url + "/getLobby.php?lobbyid=" + gamecode)
+      fetch(standard_url + "/lobby.php?lobbyid=" + gamecode)
           .then(result => {
               if (result.status === 404) return;
 
@@ -16,7 +16,7 @@ function StartIndex() {
                   navigate("/game=" + gamecode + "/0")
               }
           })
-          .catch(error => {
+          .catch(() => {
               console.log("game not found")
           })
   }

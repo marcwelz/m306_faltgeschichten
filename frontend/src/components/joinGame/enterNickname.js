@@ -23,7 +23,7 @@ function EnterNickname() {
     }, [])
 
     function checkGameAvailability() {
-        fetch(standard_url + "/getLobby.php?lobbyid=" + gamecode)
+        fetch(standard_url + "/lobby.php?lobbyid=" + gamecode)
             .then(result => {
                 if (result.status === 404) {
                     navigate("/");
@@ -45,7 +45,7 @@ function EnterNickname() {
             const requestOptions = {
                 method: 'POST'
             };
-            fetch(standard_url + "/newLobby.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
+            fetch(standard_url + "/lobby.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
                 .then(r => navigate("/lobby/game=" + gamecode + "&username=" + username))
         } else {
 
@@ -54,7 +54,7 @@ function EnterNickname() {
                 // headers: { 'Content-Type': 'application/json' },
                 // body: JSON.stringify({ title: 'React POST Request Example' })
             };
-            fetch(standard_url + "/postUser.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
+            fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
                 .then(r => navigate("/lobby/game=" + gamecode + "&username=" + username))
         }
     }
