@@ -2,6 +2,7 @@ import './style.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import {standard_url} from "../../config/global_configurations";
+import Spinner from "../static/spinner/Spinner";
 
 function GameLobby () {
     const {gamecode, username} = useParams();
@@ -49,7 +50,7 @@ function GameLobby () {
                     <h3>username: {username}</h3>
                     <ul id='nav'>
                         {players.length > 0 ? players.map(player => <li key={player.username}>{player.username + " " + player.status}</li>) :
-                         <li>Loading ...</li>}
+                         <li><Spinner/></li>}
                     </ul>
                 </div>
                 <div className='main-container__gameoperations'>

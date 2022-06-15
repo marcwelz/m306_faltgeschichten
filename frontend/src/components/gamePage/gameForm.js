@@ -14,7 +14,7 @@ function GamePage() {
     const [question] = useState([]);
     const [tipp] = useState([])
     const [isFinish, setFinish] = useState(false)
-    const [answers, setAnswers] = useState([])
+    const [answers] = useState([])
 
     const randomTippIndex = Math.floor(Math.random() * (3));
 
@@ -28,12 +28,12 @@ function GamePage() {
 
     useEffect(() => {
         if(!isDataReady) {
-            data.map((data) => {
+            data.forEach((data) => {
                 question.push(data.title)
                 tipp.push(data.tipps)
             })
         }
-    }, [])
+    }, [question, isDataReady, tipp])
 
     function nextQuestion() {
         answers[currentQuestion] = value
@@ -76,7 +76,7 @@ function GamePage() {
                     navigate("/lobby/game=" + gamecode + "&username=" + username + "/summary")
                 }
             })
-            .catch(error => {
+            .catch(() => {
                 //do nothing
             })
     }
@@ -90,7 +90,7 @@ function GamePage() {
                 </div>
                 <div className="main-container-game-form">
                     <div className='main-container-game-form__input'>
-                        <input type="text" value={value} disabled={isFinish} placeholder='Gib deine Antwort ein...' onChange={e => setValue(e.target.value)}></input>
+                        <input type="text" value={value} disabled={isFinish} placeholder='Gib deine Antwort ein...' onChange={e => setValue(e.target.value)}/>
                     </div>
                 </div>
                 <div className='main-container__gameoperations'>
@@ -99,7 +99,7 @@ function GamePage() {
                         style={{ backgroundColor: isFinish ? '#3fcc65' : '#405cf5'}}
                         onClick={() => handleButton()}
                         >
-                            {isFinish ? <Spinner></Spinner>: ""}
+                            {isFinish ? <Spinner/>: ""}
                             <div style={{width: isFinish ? "auto" : "100%"}}>
                                 {isFinish ? "Wartet auf andere Spieler..." : "Fertig"}
                             </div>
