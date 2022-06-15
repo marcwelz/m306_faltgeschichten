@@ -18,13 +18,14 @@ function GameSummary() {
             .then(result => {
                 setPhrases(result)
             })
-            .catch(error => {
+            .catch(() => {
                 //do nothing
             })
     }
 
     function handlePlayAgain() {
-        navigate("/lobby/game=" + gamecode + "&username=" + username)
+        fetch(standard_url + "/postUser.php?lobbyid=" + gamecode + "&username=" + username,  {method: "PUT" })
+            .then(() => navigate("/lobby/game=" + gamecode + "&username=" + username))
     }
 
     return (
