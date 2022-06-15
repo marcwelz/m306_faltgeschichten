@@ -18,7 +18,7 @@ root.render(
       <Route path="/game=:gamecode/:create" element={<EnterNickname />} />
       <Route path="/lobby/game=:gamecode&username=:username" element={<GameLobby />} />
       <Route path="/lobby/game=:gamecode&username=:username/game" element={<GamePage />} />
-      <Route path="/summary" element={<GameSummary />} />
+      <Route path="/lobby/game=:gamecode&username=:username/summary" element={<GameSummary />} />
       </Routes>
     </Router>
   </React.StrictMode>
