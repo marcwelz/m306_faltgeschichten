@@ -33,20 +33,30 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         $j = 1;
         for ($i = 1; $i <= 6; $i++){
-            $stmt = $mysql->prepare("SELECT answer FROM story WHERE lobby_ID = ? AND question = ? ORDER BY participant_ID, question");
-            $stmt->bind_result($answer);
+            $stmt = $mysql->prepare("SELECT answer, username FROM story JOIN user ON story.participant_ID = user.userID WHERE lobby_ID = ? AND question = ? ORDER BY participant_ID, question");
+            $stmt->bind_result($answer, $username);
             $stmt->bind_param("ii", $lobbyid, $i);
             $stmt->execute();
 
             while($stmt->fetch()) {
-                $ergebnis[$j % $finishedUsers][$i] = $answer;
+//                $ergebnis[$j % $finishedUsers][$i] = $answer;
+                if (!isset($ergebnis[$j % $finishedUsers])){
+                    $ergebnis[$j % $finishedUsers]["username"] = $username;
+                    $ergebnis[$j % $finishedUsers]["story"] = $answer;
+                } else {
+                    $ergebnis[$j % $finishedUsers]["story"] = $ergebnis[$j % $finishedUsers]["story"] . " " . $answer;
+                }
                 $j++;
             }
             $j--;
             $stmt->close();
         }
 
-        echo json_encode($ergebnis);
+        foreach ($ergebnis as $story){
+            $return_arr[] = $story;
+        }
+
+        echo json_encode($return_arr);
 
 
         break;

@@ -33,7 +33,6 @@ function StartIndex() {
           <div className="main-container-form">
             <div className='main-container-form__input'>
               <input type="text" placeholder="Enter gamecode..." onChange={e => setGamecode(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}/>
-              <input type="button" onClick={handleSubmit} value="Go"/>
             </div>
             <input type="button" onClick={handleCreateGame} className="create-game-button" value="Host Game"/>
           </div>

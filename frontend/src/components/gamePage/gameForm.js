@@ -40,22 +40,22 @@ function GamePage() {
 
         if(currentQuestion === 5) {
             setFinish(true)
+            let formData = new FormData();
+            formData.append('username', username);
+            formData.append('lobby', gamecode);
+            formData.append('wer', answers[0]);
+            formData.append('beruf', answers[1]);
+            formData.append('was', answers[2]);
+            formData.append('wo', answers[3]);
+            formData.append('wann', answers[4]);
+            formData.append('wieso', answers[5]);
             const requestOptions = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    username: {username},
-                    lobby: {gamecode},
-                    wer: answers[1],
-                    beruf: answers[2],
-                    was: answers[3],
-                    wo: answers[4],
-                    wann: answers[5],
-                    wieso: answers[6],
-                })
+                body: formData
             };
             fetch(standard_url + "/postAnswers.php", requestOptions)
                 .then(r => {
+                    console.log(r)
                     const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
                         checkAnswers();
                     }, 1000)
@@ -72,10 +72,11 @@ function GamePage() {
             .then(res => res.json())
             .then(result => {
                 if (result.ok !== 400){
+                    navigate("/lobby/game=" + gamecode + "&username=" + username + "/summary")
                 }
             })
             .catch(error => {
-                console.log(error, "error")
+                //do nothing
             })
     }
 

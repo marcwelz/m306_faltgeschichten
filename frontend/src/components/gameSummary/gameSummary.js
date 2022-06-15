@@ -1,38 +1,43 @@
 import './style.css';
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {standard_url} from "../../config/global_configurations";
+import {useNavigate, useParams} from "react-router-dom";
 
 function GameSummary() {
+    const {gamecode, username} = useParams();
+    const [phrases, setPhrases] = useState([]);
+    const navigate = useNavigate();
 
-    /**
-     * TODO
-     */
-    
-    const loremipsum = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
-    const phrases = [
-        {
-            title: "Text 1",
-            phrase: loremipsum
-        },
-        {
-            title: "Text 2",
-            phrase: loremipsum
-        },
-        {
-            title: "Text 3",
-            phrase: loremipsum
-        }
-    ];
+    useEffect(() => {
+        getAnswers()
+    }, [])
+
+    function getAnswers() {
+        fetch(standard_url + "/getStories.php?lobbyid=" + gamecode)
+            .then(res => res.json())
+            .then(result => {
+                setPhrases(result)
+            })
+            .catch(error => {
+                //do nothing
+            })
+    }
+
+    function handlePlayAgain() {
+        navigate("/lobby/game=" + gamecode + "&username=" + username)
+    }
 
     return (
         <div className="main-summary">
             <div className="main-container-summary">
-                <h1 className="main-container-summary">Summary</h1>
-                    {phrases.map((s) => (
-                        <div className="main-container-summary-text">
-                            <h2 className="title">{s.title}</h2>
-                            <h3 className="phrase">{s.phrase}</h3>
-                        </div>
-                    ))}
+                <h1 className="main-container-summary">Phrases</h1>
+                {phrases.length > 0 && phrases.map((s) => (
+                    <div className="main-container-summary-text">
+                        <h2 className="title">Text: {s.username}</h2>
+                        <h3 className="phrase">{s.story}</h3>
+                    </div>
+                ))}
+                <input type="button" onClick={handlePlayAgain} className="create-game-button" value="Play again"/>
             </div>
         </div>
     )

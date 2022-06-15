@@ -38,11 +38,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $statement->close();
 
         $statement = $mysql3->prepare("UPDATE user SET status = 'finished' WHERE username = ? AND lobbyID = ?;");
-        $statement->bind_result($userid, $lobbyid);
         $statement->bind_param("si", $username, $lobby);
         $statement->execute();
         $statement->fetch();
+        http_response_code(200);
         break;
+    case 'OPTIONS':
+        http_response_code(200);
+        exit();
     default:
         // 405 = Method Not Allowed
         http_response_code(405); // for PHP >= 5.4.0
