@@ -2,6 +2,7 @@ import './style.css';
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {standard_url} from "../../config/global_configurations";
+import Footer from '../static/footer/Footer';
 
 function StartIndex() {
   const [gamecode, setGamecode] = useState("");

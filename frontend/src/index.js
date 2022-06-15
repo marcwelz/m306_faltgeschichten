@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import GameLobby from './components/gameLobby/gameLobby';
 import GamePage from './components/gamePage/gameForm';
 import GameSummary from "./components/gameSummary/gameSummary";
+import Footer from './components/static/footer/Footer';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,6 +22,7 @@ root.render(
       <Route path="/lobby/game=:gamecode&username=:username/summary" element={<GameSummary />} />
       </Routes>
     </Router>
+    <Footer></Footer>
   </React.StrictMode>
 );
 
