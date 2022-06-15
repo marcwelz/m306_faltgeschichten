@@ -13,7 +13,7 @@ code {
 }
 
 #root {
-  height: 100%;
+  height: calc(100% - 32px) !important;
 
   background: linear-gradient(270deg,  #7796f5, #e99fff);
   background-size: 400% 400%;

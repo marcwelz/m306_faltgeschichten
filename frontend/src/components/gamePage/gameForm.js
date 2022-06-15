@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 import data from "../../config/data/gameFormText.json";
 import {standard_url} from "../../config/global_configurations";
+import Spinner from '../static/spinner/Spinner';
 
 function GamePage() {
     const {gamecode, username} = useParams();
@@ -98,7 +99,7 @@ function GamePage() {
                         style={{ backgroundColor: isFinish ? '#3fcc65' : '#405cf5'}}
                         onClick={() => handleButton()}
                         >
-                            {isFinish ? <div className="lds-ring"><div></div><div></div><div></div><div></div></div>: ""}
+                            {isFinish ? <Spinner></Spinner>: ""}
                             <div style={{width: isFinish ? "auto" : "100%"}}>
                                 {isFinish ? "Wartet auf andere Spieler..." : "Fertig"}
                             </div>
