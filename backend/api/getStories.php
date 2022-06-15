@@ -52,6 +52,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $stmt->close();
         }
 
+        if (!isset($ergebnis)) {
+            http_response_code(400);//Bad Request
+            exit;
+        }
         foreach ($ergebnis as $story){
             $return_arr[] = $story;
         }

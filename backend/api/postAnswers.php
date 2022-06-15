@@ -12,12 +12,12 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
-        $answer[1] = htmlentities($_POST['wer'], ENT_QUOTES);
-        $answer[2] = htmlentities($_POST['beruf'], ENT_QUOTES);
-        $answer[3] = htmlentities($_POST['was'], ENT_QUOTES);
-        $answer[4] = htmlentities($_POST['wo'], ENT_QUOTES);
-        $answer[5] = htmlentities($_POST['wann'], ENT_QUOTES);
-        $answer[6] = htmlentities($_POST['wieso'], ENT_QUOTES);
+        $answer[1] = htmlentities($_POST['wer'], ENT_QUOTES, "UTF-8");
+        $answer[2] = htmlentities($_POST['beruf'], ENT_QUOTES, "UTF-8");
+        $answer[3] = htmlentities($_POST['was'], ENT_QUOTES, "UTF-8");
+        $answer[4] = htmlentities($_POST['wo'], ENT_QUOTES, "UTF-8");
+        $answer[5] = htmlentities($_POST['wann'], ENT_QUOTES, "UTF-8");
+        $answer[6] = htmlentities($_POST['wieso'], ENT_QUOTES, "UTF-8");
 
         $username = htmlentities($_POST['username'], ENT_QUOTES);
         $lobby = htmlentities($_POST['lobby'], ENT_QUOTES);
@@ -37,10 +37,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         $statement->close();
 
-        $statement = $mysql3->prepare("UPDATE user SET status = 'finished' WHERE username = ? AND lobbyID = ?;");
-        $statement->bind_param("si", $username, $lobby);
-        $statement->execute();
-        $statement->fetch();
+        $statement1 = $mysql3->prepare("UPDATE user SET status = 'finished' WHERE username = ? AND lobbyID = ?;");
+        $statement1->bind_param("si", $username, $lobby);
+        $statement1->execute();
+        $statement1->fetch();
         http_response_code(200);
         break;
     case 'OPTIONS':

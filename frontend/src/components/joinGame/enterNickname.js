@@ -40,7 +40,7 @@ function EnterNickname() {
 
     function handleSubmit(event) {
 
-        if (create === 1){
+        if (create === '1'){
 
             const requestOptions = {
                 method: 'POST'
