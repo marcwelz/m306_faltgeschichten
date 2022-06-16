@@ -47,6 +47,7 @@ function GamePage() {
             if(currentQuestion === 5) {
                 setFinish(true)
                 applicationProperties.development ? navigate("/lobby/game=" + gamecode + "&username=" + username + "/summary") : sendData()
+                return;
             }
             setCurrentQuestion(currentQuestion +1)
         }
@@ -75,7 +76,6 @@ function GamePage() {
 
                 return () => clearInterval(intervalId);
             })
-        return
     }
 
     function checkAnswers() {
