@@ -27,11 +27,15 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $startGame = false;
         }
 
-        if ($users) {
+        if (isset($users)) {
             http_response_code(200);
 
             if ($startGame && count($users) > 3){
                 echo json_encode(array("start" => true));
+                $stmt = $mysql2->prepare("DELETE FROM story WHERE lobbyID = ?;");
+                $stmt->bind_param("i", $lobbyId);
+                $stmt->execute();
+                $stmt->close();
                 closeDB();
                 exit();
             }
