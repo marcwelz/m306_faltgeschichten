@@ -11,7 +11,7 @@ function Footer() {
                 12345678
             </div> : ""}
             <div style={gamecode ? {display: "flex", "justify-content": "space-between"}: {}} className='footer-container__credits'>
-                ©2022
+                Version 0.2.1 ©2022
             </div>
             {username ? <div className='footer-container__username'>
                 marc.welz

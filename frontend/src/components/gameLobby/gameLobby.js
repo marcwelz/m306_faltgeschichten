@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import {standard_url} from "../../config/global_configurations";
 import Spinner from "../static/spinner/Spinner";
+import applicationProperties from "../../config/application-properties.json"
 
 function GameLobby () {
     const {gamecode, username} = useParams();
@@ -10,12 +11,13 @@ function GameLobby () {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
-            loadPlayers();
-        }, 1000)
-
-        return () => clearInterval(intervalId);
-
+        if(!applicationProperties.development) {
+            const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
+                loadPlayers();
+            }, 1000)
+    
+            return () => clearInterval(intervalId);
+        }
     }, [])
 
     function loadPlayers() {
@@ -33,13 +35,21 @@ function GameLobby () {
     }
 
     function ready() {
-        fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username,  { method: "PATCH" })
+        if(!applicationProperties.development) {
+            fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username,  { method: "PATCH" })
+        } else {
+            navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
+        }
         // navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
     }
 
     function cancelGame() {
-        fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username, { method: "DELETE" })
+        if(!applicationProperties.development) {
+            fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username, { method: "DELETE" })
             .then(() => navigate("/"))
+        } else {
+            navigate("/")
+        }
     }
 
     return (

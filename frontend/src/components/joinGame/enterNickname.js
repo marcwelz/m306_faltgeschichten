@@ -2,6 +2,7 @@ import './style.css';
 import {useParams, useNavigate} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import {standard_url} from "../../config/global_configurations";
+import applicationProperties from "../../config/application-properties.json"
 
 function EnterNickname() {
     const {gamecode, create} = useParams();
@@ -23,7 +24,8 @@ function EnterNickname() {
     }, [])
 
     function checkGameAvailability() {
-        fetch(standard_url + "/lobby.php?lobbyid=" + gamecode)
+        if(!applicationProperties.development) {
+            fetch(standard_url + "/lobby.php?lobbyid=" + gamecode)
             .then(result => {
                 if (result.status === 404) {
                     navigate("/");
@@ -36,26 +38,32 @@ function EnterNickname() {
             })
 
         return false;
+        } else {
+            return true;
+        }
     }
 
-    function handleSubmit(event) {
+    function handleSubmit() {
+        if(!applicationProperties.development) {
+            if (create === '1'){
 
-        if (create === '1'){
-
-            const requestOptions = {
-                method: 'POST'
-            };
-            fetch(standard_url + "/lobby.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
-                .then(r => navigate("/lobby/game=" + gamecode + "&username=" + username))
+                const requestOptions = {
+                    method: 'POST'
+                };
+                fetch(standard_url + "/lobby.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
+                    .then(r => navigate("/lobby/game=" + gamecode + "&username=" + username))
+            } else {
+    
+                const requestOptions = {
+                    method: 'POST',
+                    // headers: { 'Content-Type': 'application/json' },
+                    // body: JSON.stringify({ title: 'React POST Request Example' })
+                };
+                fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
+                    .then(r => navigate("/lobby/game=" + gamecode + "&username=" + username))
+            }
         } else {
-
-            const requestOptions = {
-                method: 'POST',
-                // headers: { 'Content-Type': 'application/json' },
-                // body: JSON.stringify({ title: 'React POST Request Example' })
-            };
-            fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
-                .then(r => navigate("/lobby/game=" + gamecode + "&username=" + username))
+            navigate("/lobby/game=" + gamecode + "&username=" + username)
         }
     }
 

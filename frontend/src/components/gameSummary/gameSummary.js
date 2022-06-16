@@ -3,13 +3,15 @@ import React, {useEffect, useState} from "react";
 import {standard_url} from "../../config/global_configurations";
 import {useNavigate, useParams} from "react-router-dom";
 
+import applicationProperties from "../../config/application-properties.json"
+
 function GameSummary() {
     const {gamecode, username} = useParams();
     const [phrases, setPhrases] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        getAnswers()
+        if(applicationProperties.development) getAnswers()
     }, [])
 
     function getAnswers() {
