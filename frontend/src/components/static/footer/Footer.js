@@ -1,6 +1,7 @@
 import './style.css';
 import React from "react";
 import {useParams} from 'react-router-dom';
+import applicationProperties from "../../../config/application-properties.json"
 
 function Footer() {
     const {gamecode, username} = useParams()
@@ -11,7 +12,7 @@ function Footer() {
                 12345678
             </div> : ""}
             <div style={gamecode ? {display: "flex", "justify-content": "space-between"}: {}} className='footer-container__credits'>
-                ©2022
+                Version {applicationProperties.version} ©2022
             </div>
             {username ? <div className='footer-container__username'>
                 marc.welz

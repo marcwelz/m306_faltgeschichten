@@ -3,19 +3,58 @@ import { useParams, useNavigate } from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import {standard_url} from "../../config/global_configurations";
 import Spinner from "../static/spinner/Spinner";
+import applicationProperties from "../../config/application-properties.json"
 
 function GameLobby () {
     const {gamecode, username} = useParams();
     const [players, setPlayers] = useState([]);
     const navigate = useNavigate();
+    const [isPlayerReady, setPlayerReady] = useState(false)
+    const [isHovering, setHover] = useState(false);
 
     useEffect(() => {
-        const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
-            loadPlayers();
-        }, 1000)
+        if(!applicationProperties.development) {
+            const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
+                loadPlayers();
+            }, 1000)
+    
+            return () => clearInterval(intervalId);
+        } else {
+            const devData = [{
+                "username": "player1",
+                "status": "ready"
+            },
+            {
+                "username": "player2",
+                "status": "ready"
+            },
+            {
+                "username": "player3",
+                "status": "lobby"
+            },
+            {
+                "username": "player4",
+                "status": "lobby"
+            },
+            {
+                "username": "player5",
+                "status": "ready"
+            },
+            {
+                "username": "player6",
+                "status": "lobby"
+            },
+            {
+                "username": "player7",
+                "status": "ready"
+            },
+            {
+                "username": "player8",
+                "status": "ready"
+            }]
 
-        return () => clearInterval(intervalId);
-
+            setPlayers(devData)
+        }
     }, [])
 
     function loadPlayers() {
@@ -33,13 +72,21 @@ function GameLobby () {
     }
 
     function ready() {
-        fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username,  { method: "PATCH" })
-        // navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
+        setPlayerReady(!isPlayerReady)
+        if(!applicationProperties.development) {
+            fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username,  { method: "PATCH" })
+        } else {
+            navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
+        }
     }
 
     function cancelGame() {
-        fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username, { method: "DELETE" })
+        if(!applicationProperties.development) {
+            fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username, { method: "DELETE" })
             .then(() => navigate("/"))
+        } else {
+            navigate("/")
+        }
     }
 
     return (
@@ -49,23 +96,36 @@ function GameLobby () {
                     <h1>Your code: {gamecode}</h1>
                     <h3>username: {username}</h3>
                     <ul id='nav'>
-                        {players.length > 0 ? players.map(player => <li key={player.username}>{player.username + " " + player.status}</li>) :
+                        {players.length > 0 ? players.map(player => 
+                            <li key={player.username} style={{padding: "2px"}}>
+                                {player.username + " " + (player.status.includes("ready") ? "✅" : "❌")}
+                            </li>) :
                             <li><span><Spinner/></span></li>}
                     </ul>
                 </div>
                 <div className='main-container__gameoperations'>
                     <button
                         className="button-9"
-                        style={{backgroundColor: "#eb4034", marginRight:"10px"}}
+                        style={{backgroundColor: "#eb4034", marginRight:"10px", display: "block"}}
                         onClick={() => cancelGame()}
-                        value="cancel">
-                    cancel</button>
+                        value="leave"
+                        disabled={isPlayerReady}
+                        >
+                    leave</button>
                     <button
                         className="button-9"
-                        style={{backgroundColor: '#405cf5', marginLeft: "10px"}}
+                        style={{
+                            backgroundColor: isPlayerReady ? "#3fcc65" : '#405cf5',
+                            marginLeft: "10px",
+                            display: (isPlayerReady ? "flex": "block")
+                        }}
                         value="start"
-                        onClick={() => ready()}>
-                    ready</button>
+                        onClick={() => ready()}
+                        onMouseEnter={() => setHover(true)}
+                        onMouseLeave={() => setHover(false)}
+                        >
+                    {isPlayerReady ? <Spinner></Spinner>: ""}{isHovering && isPlayerReady ? "unready": "ready"}
+                    </button>
                 </div>
             </div>
         </div>

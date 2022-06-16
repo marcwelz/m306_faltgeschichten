@@ -66,6 +66,10 @@
   width: 100%;
 }
 
+.button-9:hover {
+  box-shadow: 0px 1px 20px rgba(0,0,0,.15);
+}
+
 .button-9:disabled {
   cursor: default;
 }

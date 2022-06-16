@@ -22,22 +22,66 @@ html {
 
 .main-container-summary {
     background-color: white;
-    border-radius: 15px;
     width: 70%;
+    box-shadow: 0px 1px 20px rgba(0,0,0,.15);
+}
+
+.main-container-summary-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 450px;
+    overflow-y: auto;
 }
 
 .main-container-summary > h1{
     margin: auto;
+    padding: 10px 0;
+    text-align: center;
+    box-shadow: none;
+    margin: 0;
+    width: 100%;
+    box-shadow: 0px 1px 8px rgba(0,0,0,.15);
+}
+
+.main-container-summary-button {
+    padding: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+    box-shadow: 0px 1px 8px rgba(0,0,0,.15);
+}
+
+.main-container-summary-button > input[type="button"] {
     text-align: center;
 }
 
 .main-container-summary-text {
+    border-radius: 8px 8px 0 0;
     width: 90%;
+    
+    margin: 20px;
     height: auto;
-    margin: auto;
     align-content: center;
-    background-color: #F5F5DC;
-    border-radius: 15px;
+    box-shadow: 0px 1px 20px rgba(0,0,0,.15);
+}
+
+.main-container-summary-text-title {
+    padding: 20px;
+    margin: 0;
+    box-shadow: 0px 1px 8px rgba(0,0,0,.15);
+}
+
+.main-container-summary-text-title > h2 {
+    margin: 0;
+}
+
+.main-container-summary-text-story {
+    padding: 20px;
+    box-shadow: 0px 1px 20px rgba(0,0,0,.15);
+}
+
+.main-container-summary-text-story > h3 {
+    margin: 0;
 }
 
 .title {

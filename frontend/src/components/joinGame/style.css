@@ -4,12 +4,6 @@ body {
 
 }
 
-html {
-}
-
-#root {
-}
-
 .main-container {
   width: 400px;
   height: 300px;
@@ -32,6 +26,7 @@ html {
 .main-container-form__input {
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
 
 .create-game-button {
@@ -43,12 +38,15 @@ html {
   font-weight: bold;
 }
 
+.create-game-button:hover {
+  box-shadow: 0px 1px 20px rgba(0,0,0,.15);
+}
+
 input[type="text"] {
   margin: 0;
   font-weight: bold;
   padding: 10px;
   border: solid;
-  width: 100%;
 }
 
 .main-container-form {
