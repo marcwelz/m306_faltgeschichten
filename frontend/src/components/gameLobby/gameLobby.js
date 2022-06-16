@@ -10,6 +10,7 @@ function GameLobby () {
     const [players, setPlayers] = useState([]);
     const navigate = useNavigate();
     const [isPlayerReady, setPlayerReady] = useState(false)
+    const [isHovering, setHover] = useState(false);
 
     useEffect(() => {
         if(!applicationProperties.development) {
@@ -75,7 +76,7 @@ function GameLobby () {
         if(!applicationProperties.development) {
             fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username,  { method: "PATCH" })
         } else {
-            //navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
+            navigate("/lobby/game=" + gamecode + "&username=" + username + "/game")
         }
     }
 
@@ -108,15 +109,22 @@ function GameLobby () {
                         style={{backgroundColor: "#eb4034", marginRight:"10px", display: "block"}}
                         onClick={() => cancelGame()}
                         value="leave"
-                        disabled={isPlayerReady ? true: false}
+                        disabled={isPlayerReady}
                         >
                     leave</button>
                     <button
                         className="button-9"
-                        style={{backgroundColor: (isPlayerReady ? "#3fcc65" : '#405cf5'), marginLeft: "10px"}}
+                        style={{
+                            backgroundColor: isPlayerReady ? "#3fcc65" : '#405cf5',
+                            marginLeft: "10px",
+                            display: (isPlayerReady ? "flex": "block")
+                        }}
                         value="start"
-                        onClick={() => ready()}>
-                    {isPlayerReady ? <Spinner></Spinner>: ""}ready
+                        onClick={() => ready()}
+                        onMouseEnter={() => setHover(true)}
+                        onMouseLeave={() => setHover(false)}
+                        >
+                    {isPlayerReady ? <Spinner></Spinner>: ""}{isHovering && isPlayerReady ? "unready": "ready"}
                     </button>
                 </div>
             </div>
