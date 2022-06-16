@@ -67,6 +67,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $stmt->bind_param("si", $username, $lobbyid);
         $stmt->execute();
         $stmt->close();
+
+        $statement = $mysql2->prepare("DELETE FROM story WHERE username = ? AND lobbyID = ?;");
+        $statement->bind_param("si", $username, $lobbyid);
+        $statement->execute();
+        $statement->close();
         break;
     case 'PUT':
         $username = htmlentities($_GET['username'], ENT_QUOTES);
@@ -76,6 +81,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $stmt->bind_param("si", $username, $lobbyid);
         $stmt->execute();
         $stmt->close();
+
+        $statement = $mysql2->prepare("DELETE FROM story WHERE username = ? AND lobbyID = ?;");
+        $statement->bind_param("si", $username, $lobbyid);
+        $statement->execute();
+        $statement->close();
         break;
     case 'OPTIONS':
         http_response_code(200);
