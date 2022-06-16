@@ -26,6 +26,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $stmt2->fetch();
         if ($finishedUsers != $allUsers) {
             http_response_code(400);//Bad Request
+            closeDB();
             exit;
         }
         $stmt->close();
@@ -54,6 +55,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         if (!isset($ergebnis)) {
             http_response_code(400);//Bad Request
+            closeDB();
             exit;
         }
         foreach ($ergebnis as $story){
@@ -67,5 +69,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
     default:
         // 405 = Method Not Allowed
         http_response_code(405); // for PHP >= 5.4.0
-        exit;
+        break;
 }
+closeDB();

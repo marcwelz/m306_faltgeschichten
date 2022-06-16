@@ -45,9 +45,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
     case 'OPTIONS':
         http_response_code(200);
-        exit();
+        break;
     default:
         // 405 = Method Not Allowed
         http_response_code(405); // for PHP >= 5.4.0
-        exit;
+        break;
 }
+
+closeDB();

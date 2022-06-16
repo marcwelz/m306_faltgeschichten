@@ -24,6 +24,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if (isset($lobby)) {
             http_response_code(200);
 
+            closeDB();
             exit;
         }
         http_response_code(404);
@@ -38,7 +39,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $stmt->execute();
         $stmt->fetch();
         if (isset($lobby)) {
-            http_response_code(400);//Bad Request
+            http_response_code(404);//Not Found
+            closeDB();
             exit;
         }
         $stmt->close();
@@ -61,9 +63,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
     case 'OPTIONS':
         http_response_code(200);
-        exit();
+        break;
     default:
         // 405 = Method Not Allowed
         http_response_code(405); // for PHP >= 5.4.0
-        exit;
+        break;
 }
+closeDB();
