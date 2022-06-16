@@ -8,10 +8,26 @@ import applicationProperties from "../../config/application-properties.json"
 function GameSummary() {
     const {gamecode, username} = useParams();
     const [phrases, setPhrases] = useState([]);
+    const msg = new SpeechSynthesisUtterance()
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(applicationProperties.development) getAnswers()
+        if(!applicationProperties.development) {
+            getAnswers()
+        } else {
+            const devData = [
+                {
+                    "username" : "player1",
+                    "story": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                },
+                {
+                    "username" : "player2",
+                    "story": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                }
+            ]
+
+            setPhrases(devData)
+        }
     }, [])
 
     function getAnswers() {
@@ -30,17 +46,47 @@ function GameSummary() {
             .then(() => navigate("/lobby/game=" + gamecode + "&username=" + username))
     }
 
+    function readStories() {
+        let tmpText = "First Story: "
+        phrases.map((p) => {
+            return tmpText += p.story + ". Next Story:"
+        })
+
+        msg.text = tmpText;
+        window.speechSynthesis.speak(msg)
+    }
+
     return (
         <div className="main-summary">
             <div className="main-container-summary">
                 <h1 className="main-container-summary">Phrases</h1>
-                {phrases.length > 0 && phrases.map((s) => (
-                    <div className="main-container-summary-text">
-                        <h2 className="title">Text: {s.username}</h2>
-                        <h3 className="phrase">{s.story}</h3>
+                    <div className="main-container-summary-container">
+                    {phrases.length > 0 && phrases.map((s) => (
+                        <div className="main-container-summary-text">
+                            <div className='main-container-summary-text-title'>
+                                <h2 className="title">{s.username}</h2>
+                            </div>
+                            <div className='main-container-summary-text-story'>
+                                <h3 className="phrase">{s.story}</h3>
+                            </div>
+                        </div>
+                    ))}
                     </div>
-                ))}
-                <input type="button" onClick={handlePlayAgain} className="create-game-button" value="Play again"/>
+                <div className='main-container-summary-button'>
+                    <input 
+                        type="button" 
+                        style={{backgroundColor: "#405cf5", width: "200px", display: "block"}} 
+                        onClick={handlePlayAgain} 
+                        className="button-9" 
+                        value="Play again"/>
+                    <input 
+                        type="button" 
+                        style={{backgroundColor: "#e6b800", width: "200px", display: "block", marginRight: "10px"}} 
+                        onClick={readStories} 
+                        className="button-9" 
+                        value="read stories"
+                        />
+                </div>
             </div>
         </div>
     )

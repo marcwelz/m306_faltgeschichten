@@ -16,15 +16,14 @@ function GamePage() {
     const [tipp] = useState([])
     const [isFinish, setFinish] = useState(false)
     const [answers] = useState([])
-
-    let randomTippIndex;
+    const [randomTippIndex, setRandomTippIndex] = useState(1)
 
     function handleButton() {
         if(!isFinish) nextQuestion()
     }
 
     useEffect(() => {
-        randomTippIndex = Math.floor(Math.random() * (3))
+        setRandomTippIndex(Math.floor(Math.random() * (3)))
     }, [])
 
     useEffect(() => {
@@ -41,14 +40,16 @@ function GamePage() {
     }, [question, isDataReady, tipp])
 
     function nextQuestion() {
-        answers[currentQuestion] = value
-        setValue("")
-
-        if(currentQuestion === 5) {
-            setFinish(true)
-            applicationProperties.development ? navigate("/lobby/game=" + gamecode + "&username=" + username + "/summary") : sendData()
+        if(value.length >= 4) {
+            answers[currentQuestion] = value
+            setValue("")
+    
+            if(currentQuestion === 5) {
+                setFinish(true)
+                applicationProperties.development ? navigate("/lobby/game=" + gamecode + "&username=" + username + "/summary") : sendData()
+            }
+            setCurrentQuestion(currentQuestion +1)
         }
-        setCurrentQuestion(currentQuestion +1)
     }
 
     function sendData() {
@@ -99,7 +100,15 @@ function GamePage() {
                 </div>
                 <div className="main-container-game-form">
                     <div className='main-container-game-form__input'>
-                        <input type="text" value={value} disabled={isFinish} placeholder='Gib deine Antwort ein...' onChange={e => setValue(e.target.value)}/>
+                        <input 
+                            type="text" 
+                            value={value} 
+                            disabled={isFinish} 
+                            placeholder='Gib deine Antwort ein...' 
+                            onChange={e => setValue(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && handleButton()}
+                            style={{width: "100%"}}
+                            />
                     </div>
                 </div>
                 <div className='main-container__gameoperations'>

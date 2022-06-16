@@ -7,6 +7,7 @@ import applicationProperties from "../../config/application-properties.json"
 function EnterNickname() {
     const {gamecode, create} = useParams();
     const [errorMessage, setErrorMessage] = useState("");
+    const [showCancelButton, setCancelButton] = useState(false)
     const [username, setUsername] = useState("")
     const navigate = useNavigate();
 
@@ -15,8 +16,10 @@ function EnterNickname() {
         if (!create) {
             if (checkGameAvailability()) {
                 setErrorMessage("Game not found")
+                setCancelButton(true)
             } else if (containsAnyLetter(gamecode)) {
                 setErrorMessage("Gamecode invalid")
+                setCancelButton(true)
             }
         }
 
@@ -34,6 +37,8 @@ function EnterNickname() {
                 return true;
             })
             .catch(error => {
+                setErrorMessage("an error occured")
+                setCancelButton(true)
                 console.log(error, "error")
             })
 
@@ -44,27 +49,29 @@ function EnterNickname() {
     }
 
     function handleSubmit() {
-        if(!applicationProperties.development) {
-            if (create === '1'){
+        if(username.length >= 4 && username.length <= 14) {
+            if(!applicationProperties.development) {
+                if (create === '1'){
 
-                const requestOptions = {
-                    method: 'POST'
-                };
-                fetch(standard_url + "/lobby.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
-                    .then(r => navigate("/lobby/game=" + gamecode + "&username=" + username))
+                    const requestOptions = {
+                        method: 'POST'
+                    };
+                    fetch(standard_url + "/lobby.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
+                        .then(r => navigate("/lobby/game=" + gamecode + "&username=" + username))
+                } else {
+        
+                    const requestOptions = {
+                        method: 'POST',
+                        // headers: { 'Content-Type': 'application/json' },
+                        // body: JSON.stringify({ title: 'React POST Request Example' })
+                    };
+                    fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
+                        .then(r => navigate("/lobby/game=" + gamecode + "&username=" + username))
+                }
             } else {
-    
-                const requestOptions = {
-                    method: 'POST',
-                    // headers: { 'Content-Type': 'application/json' },
-                    // body: JSON.stringify({ title: 'React POST Request Example' })
-                };
-                fetch(standard_url + "/users.php?lobbyid=" + gamecode + "&username=" + username, requestOptions)
-                    .then(r => navigate("/lobby/game=" + gamecode + "&username=" + username))
+                navigate("/lobby/game=" + gamecode + "&username=" + username)
             }
-        } else {
-            navigate("/lobby/game=" + gamecode + "&username=" + username)
-        }
+        } else setErrorMessage("Username has to be at least 4 letters")
     }
 
   return (
@@ -74,7 +81,7 @@ function EnterNickname() {
           <h6>{errorMessage}</h6>
           <div className="main-container-form">
             <div className='main-container-form__input'>
-              {errorMessage ?
+              {showCancelButton ?
                 <button
                   className="button-9"
                   style={{backgroundColor: "#eb4034", marginRight:"10px"}}
@@ -87,6 +94,7 @@ function EnterNickname() {
                   placeholder="Enter nickname..." >
                 </input>
               }
+              <input type="button" onClick={handleSubmit} style={{backgroundColor:"#35a8de"}} className="create-game-button" value="Submit"/>
             </div>
           </div>
       </div>

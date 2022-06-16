@@ -1,3 +1,4 @@
 {
-    "development" : true
+    "development" : true,
+    "version": "0.2.1"
 }
