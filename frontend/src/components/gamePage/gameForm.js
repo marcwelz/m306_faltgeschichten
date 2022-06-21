@@ -86,9 +86,6 @@ function GamePage() {
                     navigate("/lobby/game=" + gamecode + "&username=" + username + "/summary")
                 }
             })
-            .catch(() => {
-                //do nothing
-            })
     }
 
     return (
