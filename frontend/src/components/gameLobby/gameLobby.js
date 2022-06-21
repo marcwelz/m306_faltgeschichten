@@ -17,7 +17,7 @@ function GameLobby () {
             const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
                 loadPlayers();
             }, 1000)
-    
+
             return () => clearInterval(intervalId);
         } else {
             const devData = [{
@@ -89,6 +89,125 @@ function GameLobby () {
         }
     }
 
+    //CHAT
+
+    function createElementFromHTML(htmlString) {
+        var div = document.createElement('div');
+        div.innerHTML = htmlString.trim();
+
+        // Change this to div.childNodes to support multiple top-level nodes.
+        return div.firstChild;
+    }
+
+    var color = "#"+Math.floor(Math.random()*16777215).toString(16).toUpperCase();
+    var name = username;
+    var lobby = gamecode;
+    var joined = false;
+
+    //create a new WebSocket object.
+    var msgBox = document.getElementById('message-box');
+    var wsUri = "ws://localhost:9000/chatserver.php";
+    const [websocket, setWebsocket] = useState([]);
+    useEffect(() => {
+        setWebsocket(new WebSocket(wsUri))
+
+    }, []);
+    websocket.onmessage = function(ev) {
+        var msgBox = document.getElementById('message-box');
+
+        var response 		= JSON.parse(ev.data); //PHP sends Json data
+
+        var res_type 		= response.type; //message type
+        var user_message 	= response.message; //message text
+        var user_name 		= response.name; //user name
+        var user_color 		= response.color; //color
+
+        switch(res_type){
+            case 'usermsg':
+                msgBox.appendChild(createElementFromHTML('<div><span class="user_name" style="color:' + user_color + '">' + user_name + '</span> : <span class="user_message">' + user_message + '</span></div>'));
+                break;
+            case 'system':
+                msgBox.appendChild(createElementFromHTML('<div style="color:#bbbbbb">' + user_message + '</div>'));
+                break;
+        }
+        msgBox[0].scrollTop = msgBox[0].scrollHeight; //scroll message
+
+    };
+    websocket.onopen = function(ev) { // connection is open
+        var msgBox = document.getElementById('message-box');
+        msgBox.appendChild(createElementFromHTML('<div class="system_msg" style="color:#bbbbbb">Welcome to the Chat!</div>')); //notify user
+        var msg = {
+            lobby: gamecode,
+            name: username,
+            color : color
+        };
+
+        //convert and send data to server
+        websocket.send(JSON.stringify(msg));
+    }
+    // Message received from server
+
+    websocket.onerror	= function(ev){var msgBox = document.getElementById('message-box'); msgBox.appendChild(createElementFromHTML('<div class="system_error">Error Occurred - ' + ev.data + '</div>')); };
+    websocket.onclose 	= function(ev){var msgBox = document.getElementById('message-box'); msgBox.appendChild(createElementFromHTML('<div class="system_msg">Connection Closed</div>')); };
+
+    function send_message(){
+        var message_input = document.getElementById("message"); //user message text
+        //var name_input = $('#name'); //user name
+
+        /*if(message_input.val() == ""){ //empty name?
+            alert("Enter your Name please!");
+            return;
+        }*/
+        if(message_input.value == ""){ //emtpy message?
+            alert("Enter Some message Please!");
+            return;
+        }
+
+        //prepare json data
+        var msg = {
+            message: message_input.value.toString(),
+            name: name,
+            color : color,
+            lob: lobby
+        };
+
+        //convert and send data to server
+        websocket.send(JSON.stringify(msg));
+        message_input.value = ""; //reset message input
+    }
+
+
+    //Message send button
+    /*$('#send-message').click(function(){
+        if (joined) {
+            send_message();
+        } else {
+            alert("join a lobby and set your name first")
+        }
+
+    });*/
+
+
+    /*var msg = {
+        lobby: gamecode,
+        name: username,
+        color : color
+    };
+
+    //convert and send data to server
+    websocket.send(JSON.stringify(msg));*/
+
+    //User hits enter key
+    /*$( "#message" ).on( "keydown", function( event ) {
+        if(event.which==13){
+            send_message();
+        }
+    });*/
+
+    //Send message
+
+    //CHAT
+
     return (
         <div className="main">
             <div className="main-container">
@@ -96,7 +215,7 @@ function GameLobby () {
                     <h1>Your code: {gamecode}</h1>
                     <h3>username: {username}</h3>
                     <ul id='nav'>
-                        {players.length > 0 ? players.map(player => 
+                        {players.length > 0 ? players.map(player =>
                             <li key={player.username} style={{padding: "2px"}}>
                                 {player.username + " " + (player.status.includes("ready") ? "✅" : "❌")}
                             </li>) :
@@ -126,6 +245,12 @@ function GameLobby () {
                         >
                     {isPlayerReady ? <Spinner></Spinner>: ""}{isHovering && isPlayerReady ? "unready": "ready"}
                     </button>
+                </div>
+                <div className='main-container__chat'>
+                    <div id="message-box"></div>
+                    <input type="text" name="message" id="message" placeholder="Type your message here..."
+                           maxLength="100"/>
+                    <button id="send-message" onClick={() => send_message()}>Send</button>
                 </div>
             </div>
         </div>
