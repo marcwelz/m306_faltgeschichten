@@ -90,7 +90,7 @@ while (true) {
 
 
         $buf = @socket_read($changed_socket, 1024, PHP_NORMAL_READ);
-        if ($buf === false) { // check disconnected client
+        if ($buf === false) { // check disconected client
             // remove client for $clients array
             $found_socket = array_search($changed_socket, $clients);
             socket_getpeername($changed_socket, $ip);
