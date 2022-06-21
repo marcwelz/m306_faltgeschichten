@@ -1,14 +1,13 @@
 <?php
-
-require_once "../config/include.inc.php";
-
-global $mysql, $mysql2;
-
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: OPTIONS,GET,DELETE,POST,PUT");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+require_once "../config/include.inc.php";
+
+global $mysql, $mysql2;
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
