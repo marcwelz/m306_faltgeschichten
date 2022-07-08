@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 require_once "../config/include.inc.php";
 
-global $mysql, $mysql2, $mysql3;
+global $mysql;
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
@@ -26,17 +26,16 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $statement->bind_param("si", $username, $lobby);
         $statement->execute();
         $statement->fetch();
+        $statement->close();
 
         for ($x = 1; $x <= 6; $x++) {
-            $stmt = $mysql2->prepare("INSERT INTO story(participant_ID, lobby_ID, question, answer) VALUES(?,?,?,?)");
+            $stmt = $mysql->prepare("INSERT INTO story(participant_ID, lobby_ID, question, answer) VALUES(?,?,?,?)");
             $stmt->bind_param("iiis", $userid, $lobbyid, $x, $answer[$x]);
             $stmt->execute();
             $stmt->close();
         }
 
-        $statement->close();
-
-        $statement1 = $mysql3->prepare("UPDATE user SET status = 'finished' WHERE username = ? AND lobbyID = ?;");
+        $statement1 = $mysql->prepare("UPDATE user SET status = 'finished' WHERE username = ? AND lobbyID = ?;");
         $statement1->bind_param("si", $username, $lobby);
         $statement1->execute();
         $statement1->fetch();

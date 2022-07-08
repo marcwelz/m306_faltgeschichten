@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 require_once "../config/include.inc.php";
 
-global $mysql, $mysql2;
+global $mysql;
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
@@ -18,7 +18,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $stmt->bind_param("i", $lobbyid);
         $stmt->execute();
         $stmt->fetch();
-        $stmt2 = $mysql2->prepare("SELECT count(userID) FROM user WHERE lobbyID = ?");
+        $stmt->close();
+
+        $stmt2 = $mysql->prepare("SELECT count(userID) FROM user WHERE lobbyID = ?");
         $stmt2->bind_result($allUsers);
         $stmt2->bind_param("i", $lobbyid);
         $stmt2->execute();
@@ -28,7 +30,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
             closeDB();
             exit;
         }
-        $stmt->close();
         $stmt2->close();
 
         $j = 1;

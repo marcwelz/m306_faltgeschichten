@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 require_once "../config/include.inc.php";
 
-global $mysql, $mysql2;
+global $mysql;
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
@@ -25,13 +25,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
             if ($status != "ready")
                 $startGame = false;
         }
+        $statement->close();
 
         if (isset($users)) {
             http_response_code(200);
 
             if ($startGame && count($users) > 3){
                 echo json_encode(array("start" => true));
-                $stmt = $mysql2->prepare("DELETE FROM story WHERE lobbyID = ?;");
+                $stmt = $mysql->prepare("DELETE FROM story WHERE lobbyID = ?;");
                 $stmt->bind_param("i", $lobbyId);
                 $stmt->execute();
                 $stmt->close();
@@ -71,11 +72,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $stmt->bind_param("si", $username, $lobbyid);
         $stmt->execute();
         $stmt->close();
-
-        $statement = $mysql2->prepare("DELETE FROM story WHERE username = ? AND lobbyID = ?;");
-        $statement->bind_param("si", $username, $lobbyid);
-        $statement->execute();
-        $statement->close();
         break;
     case 'PUT':
         $username = htmlentities($_GET['username'], ENT_QUOTES);
@@ -85,11 +81,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $stmt->bind_param("si", $username, $lobbyid);
         $stmt->execute();
         $stmt->close();
-
-        $statement = $mysql2->prepare("DELETE FROM story WHERE username = ? AND lobbyID = ?;");
-        $statement->bind_param("si", $username, $lobbyid);
-        $statement->execute();
-        $statement->close();
         break;
     case 'OPTIONS':
         http_response_code(200);

@@ -35,16 +35,10 @@ function jsCleanMulti(&$p1, &$p2 = "", &$p3 = "", &$p4 = "", &$p5 = "", &$p6 = "
 //--------------------------------------------------------------------------------------------------------
 function openDB()
 {
-    global $mysql, $mysql2, $mysql3, $mysql4, $DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME;
+    global $mysql, $DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME;
 
     $mysql = new mysqli($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME);
     $mysql->set_charset("utf8");
-    $mysql2 = new mysqli($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME);
-    $mysql2->set_charset("utf8");
-    $mysql3 = new mysqli($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME);
-    $mysql3->set_charset("utf8");
-    $mysql4 = new mysqli($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME);
-    $mysql4->set_charset("utf8");
 }
 
 //--------------------------------------------------------------------------------------------------------
@@ -52,12 +46,9 @@ function openDB()
 //--------------------------------------------------------------------------------------------------------
 function closeDB()
 {
-    global $mysql, $mysql2, $mysql3, $mysql4;
+    global $mysql;
 
     @$mysql->close();
-    @$mysql2->close();
-    @$mysql3->close();
-    @$mysql4->close();
 }
 
 ?>
