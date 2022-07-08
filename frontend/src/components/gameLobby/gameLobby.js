@@ -102,10 +102,8 @@ function GameLobby () {
     var color = "#"+Math.floor(Math.random()*16777215).toString(16).toUpperCase();
     var name = username;
     var lobby = gamecode;
-    var joined = false;
 
     //create a new WebSocket object.
-    var msgBox = document.getElementById('message-box');
     var wsUri = "ws://localhost:9000/chatserver.php";
     const [websocket, setWebsocket] = useState([]);
     useEffect(() => {
@@ -152,12 +150,7 @@ function GameLobby () {
 
     function send_message(){
         var message_input = document.getElementById("message"); //user message text
-        //var name_input = $('#name'); //user name
 
-        /*if(message_input.val() == ""){ //empty name?
-            alert("Enter your Name please!");
-            return;
-        }*/
         if(message_input.value == ""){ //emtpy message?
             alert("Enter Some message Please!");
             return;
@@ -175,34 +168,6 @@ function GameLobby () {
         websocket.send(JSON.stringify(msg));
         message_input.value = ""; //reset message input
     }
-
-
-    //Message send button
-    /*$('#send-message').click(function(){
-        if (joined) {
-            send_message();
-        } else {
-            alert("join a lobby and set your name first")
-        }
-
-    });*/
-
-
-    /*var msg = {
-        lobby: gamecode,
-        name: username,
-        color : color
-    };
-
-    //convert and send data to server
-    websocket.send(JSON.stringify(msg));*/
-
-    //User hits enter key
-    /*$( "#message" ).on( "keydown", function( event ) {
-        if(event.which==13){
-            send_message();
-        }
-    });*/
 
     //Send message
 
