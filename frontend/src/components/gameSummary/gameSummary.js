@@ -53,6 +53,7 @@ function GameSummary() {
         })
 
         msg.text = tmpText;
+        msg.lang = "de-DE"
         window.speechSynthesis.speak(msg)
     }
 
